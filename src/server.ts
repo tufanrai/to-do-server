@@ -30,6 +30,13 @@ app.use(express.json());
 // use router
 app.use("/api/auth", router);
 app.use("/api", routerTask);
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({
+    message: "server started",
+    status: "success",
+    success: true,
+  });
+});
 app.use("/*spalt", (req: Request, res: Response) => {
   res.status(404).json({
     message: "search not found",
