@@ -29,7 +29,15 @@ export const createTask = asyncHandler(async (req: Request, res: Response) => {
 // read task
 export const readTask = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.user;
-  const task = await Task.find({ user: id });
+  const { limit, page } = req.params;
+
+  const limitingPage = parseInt(limit) || 5;
+  const currentPage = parseInt(page) || 1;
+
+  const task = await Task.find({ user: id })
+    .limit(limitingPage)
+    .skip((currentPage - 1) * limitingPage)
+    .sort({ createdAt: -1 });
 
   if (!task) {
     throw new errorHelper("no any task to display", 404);

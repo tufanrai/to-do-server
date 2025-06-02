@@ -29,7 +29,7 @@ app.use(express.json());
 
 // use router
 app.use("/api/auth", router);
-app.use("/api", routerTask);
+app.use("/api/task", routerTask);
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
     message: "server started",
