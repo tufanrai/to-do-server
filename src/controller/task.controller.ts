@@ -39,6 +39,8 @@ export const readTask = asyncHandler(async (req: Request, res: Response) => {
     .skip((currentPage - 1) * limitingPage)
     .sort({ createdAt: -1 });
 
+  const totalPage = (await Task.countDocuments({ user: id })) / limitingPage;
+
   if (!task) {
     throw new errorHelper("no any task to display", 404);
   }
