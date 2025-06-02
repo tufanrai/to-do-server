@@ -39,7 +39,16 @@ export const readTask = asyncHandler(async (req: Request, res: Response) => {
     .skip((currentPage - 1) * limitingPage)
     .sort({ createdAt: -1 });
 
-  const totalPage = (await Task.countDocuments({ user: id })) / limitingPage;
+  const TotalValue = await Task.countDocuments({ user: id });
+  const totalPage = TotalValue / limitingPage;
+  const pagination = {
+    totalPage,
+    currentPage,
+    nextPage: totalPage > currentPage ? currentPage + 1 : currentPage,
+    prevPage: currentPage > 1 ? currentPage - 1 : currentPage,
+    hasNextPage: totalPage > currentPage ? true : false,
+    hasPreviousPage: currentPage > 1 ? true : false,
+  };
 
   if (!task) {
     throw new errorHelper("no any task to display", 404);
@@ -48,7 +57,10 @@ export const readTask = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json({
     message: "task found successfully",
     status: "success",
-    data: task,
+    data: {
+      data: task,
+      pagination,
+    },
     success: true,
   });
 });
