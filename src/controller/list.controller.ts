@@ -35,6 +35,22 @@ export const readToDo = asyncHelper(async (req: Request, res: Response) => {
   });
 });
 
+// get task by id
+export const getTaskById = asyncHelper(async (req: Request, res: Response) => {
+  const { id } = req.user;
+  const userId = req.params.id;
+  const toDos = await ToDoList.findOne({ _id: userId, user: id });
+
+  if (!toDos) {
+    throw new errorHelper("no any task to be displayed", 404);
+  }
+
+  res.status(200).json({
+    message: "data fatched",
+    data: toDos,
+  });
+});
+
 // update todo task
 export const updateToDo = asyncHelper(async (req: Request, res: Response) => {
   const id = req.params;
