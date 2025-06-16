@@ -9,6 +9,7 @@ const auth_middleware_1 = require("../middleware/auth.middleware");
 const router = express_1.default.Router();
 router.post("/", auth_middleware_1.AuthUser, list_controller_1.addToDo);
 router.get("/", auth_middleware_1.AuthUser, list_controller_1.readToDo);
-router.put("/", auth_middleware_1.AuthUser, list_controller_1.updateToDo);
+router.get("/:id", auth_middleware_1.AuthUser, list_controller_1.getTaskById);
+router.put("/update/:id", auth_middleware_1.AuthUser, list_controller_1.updateToDo);
 router.delete("/:id", auth_middleware_1.AuthUser, list_controller_1.deleteToDo);
 exports.default = router;

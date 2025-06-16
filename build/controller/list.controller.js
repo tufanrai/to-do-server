@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteToDo = exports.updateToDo = exports.readToDo = exports.addToDo = void 0;
+exports.deleteToDo = exports.updateToDo = exports.getTaskById = exports.readToDo = exports.addToDo = void 0;
 const error_helper_1 = require("../helper/error.helper");
 const list_model_1 = __importDefault(require("../model/list.model"));
 const asyncFn_helper_1 = require("../helper/asyncFn.helper");
@@ -41,10 +41,23 @@ exports.readToDo = (0, asyncFn_helper_1.asyncHelper)((req, res) => __awaiter(voi
         data: toDos,
     });
 }));
+// get task by id
+exports.getTaskById = (0, asyncFn_helper_1.asyncHelper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.user;
+    const taskId = req.params.id;
+    const toDos = yield list_model_1.default.findOne({ _id: taskId, user: id });
+    if (!toDos) {
+        throw new error_helper_1.errorHelper("no any task to be displayed", 404);
+    }
+    res.status(200).json({
+        message: "data fatched",
+        data: toDos,
+    });
+}));
 // update todo task
 exports.updateToDo = (0, asyncFn_helper_1.asyncHelper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params;
-    const { title, description } = req.body;
+    const id = req.params.id;
+    const { title } = req.body;
     if (!id) {
         throw new error_helper_1.errorHelper("please enter the todo id", 406);
     }

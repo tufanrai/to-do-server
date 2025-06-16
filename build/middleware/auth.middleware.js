@@ -25,7 +25,8 @@ const AuthUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         if (!token) {
             throw new error_helper_1.errorHelper("no token", 401);
         }
-        const verifiedToken = yield (0, jwt_helper_1.verifyToken)(token);
+        const verifiedToken = (0, jwt_helper_1.verifyToken)(token);
+        console.log(verifiedToken.id);
         if (!verifiedToken) {
             throw new error_helper_1.errorHelper("no verified", 401);
         }

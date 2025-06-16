@@ -38,8 +38,8 @@ export const readToDo = asyncHelper(async (req: Request, res: Response) => {
 // get task by id
 export const getTaskById = asyncHelper(async (req: Request, res: Response) => {
   const { id } = req.user;
-  const userId = req.params.id;
-  const toDos = await ToDoList.findOne({ _id: userId, user: id });
+  const taskId = req.params.id;
+  const toDos = await ToDoList.findOne({ _id: taskId, user: id });
 
   if (!toDos) {
     throw new errorHelper("no any task to be displayed", 404);
@@ -53,8 +53,8 @@ export const getTaskById = asyncHelper(async (req: Request, res: Response) => {
 
 // update todo task
 export const updateToDo = asyncHelper(async (req: Request, res: Response) => {
-  const id = req.params;
-  const { title, description } = req.body;
+  const id = req.params.id;
+  const { title } = req.body;
 
   if (!id) {
     throw new errorHelper("please enter the todo id", 406);
