@@ -24,7 +24,9 @@ export const AuthUser = async (
       throw new errorHelper("no token", 401);
     }
 
-    const verifiedToken = await verifyToken(token);
+    const verifiedToken = verifyToken(token);
+
+    console.log(verifiedToken.id);
 
     if (!verifiedToken) {
       throw new errorHelper("no verified", 401);

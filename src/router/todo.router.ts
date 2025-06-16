@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post("/", AuthUser, addToDo);
 router.get("/", AuthUser, readToDo);
-router.put("/", AuthUser, updateToDo);
+router.put("/update/:id", AuthUser, updateToDo);
 router.delete("/:id", AuthUser, deleteToDo);
 
 export default router;
